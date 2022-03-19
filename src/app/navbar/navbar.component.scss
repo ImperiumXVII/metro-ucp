@@ -1,0 +1,42 @@
+.sidenav-container {
+  height: 100%;
+  background-color: #1f2937;
+}
+
+.sidenav {
+  width: 200px;
+  border-color: #111;
+  background: #111827;
+  
+  a.mat-list-item {
+    color: white;
+    transition: font-size 0.2s linear, background-color 0.2s linear;
+
+    &:hover {
+      font-size: 150%;
+      background-color: #1f2937;
+    }
+
+    &[ng-reflect-disabled=true] {
+      color: #444;
+      background: #111827;
+    }
+  }
+}
+
+.main-content {
+  padding: 20px;
+  height: 90%;
+}
+
+.sidenav .mat-toolbar {
+  background: #111827;
+  color: white;
+}
+
+.mat-toolbar.mat-primary {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background-color: rgb(17, 24, 39);
+}

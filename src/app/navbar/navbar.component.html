@@ -1,0 +1,21 @@
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav #drawer class="sidenav" fixedInViewport
+      [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+      [mode]="(isHandset$ | async) ? 'over' : 'side'"
+      [opened]="(isHandset$ | async) === false">
+    <mat-toolbar>Menu</mat-toolbar>
+    <mat-nav-list>
+      <a mat-list-item [href]="accountService.loggedIn ? '/logout/' : '/login/'">{{ !accountService.loggedIn ? "Login" : "Logout" }}</a>
+      <a mat-list-item [href]="!accountService.loggedIn ? '#' : '/'" [disabled]="!accountService.loggedIn">Home</a>
+      <a mat-list-item [href]="!accountService.loggedIn ? '#' : '/acp/'" [disabled]="!accountService.loggedIn">Admin Control Panel</a>
+    </mat-nav-list>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <mat-toolbar color="primary">
+      <span>Los Santos Police Department - Metropolitan Division</span>
+    </mat-toolbar>
+    <div class="main-content">
+      <app-login *ngIf="router.url === '/login'"></app-login>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>
