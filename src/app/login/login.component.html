@@ -18,6 +18,6 @@
 		</mat-form-field>
 	</div>
 	<div>
-		<button mat-raised-button color="primary" (click)="processLogin()">Log in</button>
+		<button mat-raised-button color="primary" [disabled]="processingLogin" (click)="!processingLogin ? processLogin() : null">Log in</button>
 	</div>
 </div>

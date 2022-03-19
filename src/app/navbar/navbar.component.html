@@ -3,12 +3,12 @@
       [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
       [mode]="(isHandset$ | async) ? 'over' : 'side'"
       [opened]="(isHandset$ | async) === false">
-    <mat-toolbar>Menu</mat-toolbar>
+    <mat-toolbar>{{ accountService.loggedIn ? accountService.account?.character_name : 'Menu' }}</mat-toolbar>
     <mat-nav-list>
       <a mat-list-item [href]="accountService.loggedIn ? '/logout/' : '/login/'">{{ !accountService.loggedIn ? "Login" : "Logout" }}</a>
       <a mat-list-item [href]="!accountService.loggedIn ? '#' : '/'" [disabled]="!accountService.loggedIn">Home</a>
       <mat-accordion>
-        <mat-expansion-panel class="acp" hideToggle [disabled]="accountService.loggedIn">
+        <mat-expansion-panel class="acp" hideToggle [disabled]="!accountService.loggedIn">
           <mat-expansion-panel-header>
             <mat-panel-title>
               Admin Control Panel
@@ -24,8 +24,9 @@
       <span>Los Santos Police Department - Metropolitan Division</span>
     </mat-toolbar>
     <div class="main-content">
-      <app-login *ngIf="router.url === '/login'"></app-login>
-      <app-adduser *ngIf="router.url === '/acp/createuser'"></app-adduser>
+      <app-login *ngIf="router.url === '/login' && !accountService.loggedIn"></app-login>
+      <app-adduser *ngIf="router.url === '/acp/createuser' && accountService.loggedIn && accountService.account!.admin_level > 0"></app-adduser>
+      <app-acp *ngIf="router.url === '/acp' || accountService.loggedIn && accountService.account!.admin_level > 0"></app-acp>
     </div>
   </mat-sidenav-content>
 </mat-sidenav-container>

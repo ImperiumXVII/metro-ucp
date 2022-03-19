@@ -19,6 +19,11 @@ export class AppComponent implements OnInit {
     this.accountService.loggedIn = (/true/i).test(this.cookieService.get('metro-logged-in'));
     if(!this.accountService.loggedIn) {
       this.router.navigateByUrl('/login');
+      return;
+    }
+
+    if(!this.accountService.account) {
+      this.accountService.getAccountInfo(this.cookieService.get('metro-name'));
     }
   }
   

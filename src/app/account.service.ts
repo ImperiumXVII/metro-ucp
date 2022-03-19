@@ -1,5 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import CryptoES from 'crypto-es';
+import { PASSWORD_HASH } from 'src/environments/hash';
 
 export interface Account {
   id: number;
@@ -24,7 +26,7 @@ export class AccountService {
   constructor(private http: HttpClient) {}
 
   private _loggedIn = false;
-  account: Account | null = null;
+  account?: Account;
 
   get loggedIn() {
     return this._loggedIn;
@@ -34,11 +36,36 @@ export class AccountService {
     this._loggedIn = loggedIn;
   }
 
-  login(username: string, password: string) {
-    this.http.get(`http://localhost:3000/login/${username}/${password}`, { responseType: 'text' }).subscribe(response => {
-      if(response) {
-
-      }
+  async getAccountInfo(username: string) {
+    let response = await new Promise<Account>(resolve => {
+      let account: Account;
+      this.http.post<Account>(`http://localhost:3000/update`, { username: username }).subscribe(res => {
+        account = res;
+      });
+      setTimeout(() => {
+        resolve(account);
+      }, 1000);
     });
+    if(response) {
+      this.account = response;
+    }
+  }
+
+  async login(username: string, password: string) {
+    const encryptedPassword = CryptoES.HmacSHA256(password, PASSWORD_HASH).toString();
+    let response = await new Promise<Account>(resolve => {
+      let account: Account;
+      this.http.post<Account>(`http://localhost:3000/login`, { username: username, password: encryptedPassword }).subscribe(res => {
+        account = res;
+      });
+      setTimeout(() => {
+        resolve(account);
+      }, 1000);
+    });
+    if(response) {
+      this.account = response;
+      return true;
+    }
+    return false;
   }
 }
