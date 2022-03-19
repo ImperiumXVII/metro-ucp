@@ -26,7 +26,10 @@
     <div class="main-content">
       <app-login *ngIf="router.url === '/login' && !accountService.loggedIn"></app-login>
       <app-adduser *ngIf="router.url === '/acp/createuser' && accountService.loggedIn && accountService.account!.admin_level > 0"></app-adduser>
-      <app-acp *ngIf="router.url === '/acp' || accountService.loggedIn && accountService.account!.admin_level > 0"></app-acp>
+      <app-acp *ngIf="router.url === '/acp/' && accountService.loggedIn && accountService.account!.admin_level > 0"></app-acp>
+      <div class="home">
+        Home
+      </div>
     </div>
   </mat-sidenav-content>
 </mat-sidenav-container>
