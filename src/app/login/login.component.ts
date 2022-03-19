@@ -9,6 +9,8 @@ import { AccountService } from '../account.service';
 export class LoginComponent implements OnInit {
 
   constructor(private accountService: AccountService, private element: ElementRef) { }
+  usernameValue = '';
+  passwordValue = '';
 
   ngOnInit(): void {
 

@@ -1,35 +1,25 @@
 .login-bar {
 	font-family: Lato;
-
-	margin: auto;
-	width: 100%;
-
-	span {
+	
+	mat-label {
 		color: white;
-		font-size: 18px;
-		font-weight: 600;
-		display: block;
-		margin-bottom: 4px;
 	}
 
-	.username {
-		margin-bottom: 24px;
+	.username, .password {
+		width: 300px;
 	}
 
 	input {
 		padding: 4px;
-		width: 20%;
-		height: 24px;
-		font-size: 18px;
-		background-color: #fff3;
-		color: #ddd;
+		color: #eee;
+	}
 
-		&[type=submit] {
-			margin-top: 18px;
-			padding: 0;
-			height: 28px;
-			font-size: 14px;
-			width: 120px;
-		}
+	button {
+		transition: transform 0.1s linear;
+		transform-origin: 0 0;
+	}
+
+	button:hover {
+		transform: scale(1.1);
 	}
 }

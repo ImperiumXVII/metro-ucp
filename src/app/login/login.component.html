@@ -1,11 +1,23 @@
 <div class="login-bar">
-	<div class="username">
-		<span>Username</span>
-		<input id="metro-ucp-username" autofocus>
+	<div>
+		<mat-form-field class="username" appearance="fill">
+			<mat-label>Username</mat-label>
+			<input matInput type="text" name="metro-ucp-username" autofocus [(ngModel)]="usernameValue" autocomplete="off">
+			<button *ngIf="usernameValue" matSuffix mat-icon-button aria-label="Clear" (click)="usernameValue=''">
+				<mat-icon>close</mat-icon>
+			</button>
+		</mat-form-field>
 	</div>
 	<div>
-		<span>Password</span>
-		<input id="metro-ucp-password" type="password">
+		<mat-form-field class="password" appearance="fill">
+			<mat-label>Password</mat-label>
+			<input matInput name="metro-ucp-password" type="password" [(ngModel)]="passwordValue" autocomplete="off">
+			<button *ngIf="passwordValue" matSuffix mat-icon-button aria-label="Clear" (click)="passwordValue=''">
+				<mat-icon>close</mat-icon>
+			</button>
+		</mat-form-field>
 	</div>
-	<input type="submit" value="Login" (click)="processLogin()">
+	<div>
+		<button mat-raised-button color="primary" (click)="processLogin()">Log in</button>
+	</div>
 </div>
