@@ -1,0 +1,20 @@
+<div class="create-character">
+	<div>
+		<mat-form-field class="char-name" appearance="fill">
+			<mat-label>Character Name</mat-label>
+			<input matInput [errorStateMatcher]="matcher" [formControl]="characterNameControl" type="text" name="metro-ucp-char-name" autofocus [(ngModel)]="nameValue" autocomplete="off">
+			<button *ngIf="nameValue" matSuffix mat-icon-button aria-label="Clear" (click)="nameValue=''">
+				<mat-icon>close</mat-icon>
+			</button>
+			<mat-error *ngIf="characterNameControl.hasError('required')">
+				Please enter a name for your character.
+			</mat-error>
+			<mat-error *ngIf="characterNameControl.hasError('pattern')">
+				Character name must be between 3 characters and 38 characters long and be in the <i>Firstname Lastname</i> format.
+			</mat-error>
+		</mat-form-field>
+	</div>
+	<div class="buttons">
+		<button mat-raised-button color="primary" [disabled]="processingCharacter" (click)="!processingCharacter ? setName() : null">Set name</button>
+	</div>
+</div>

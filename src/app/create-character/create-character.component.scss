@@ -1,12 +1,12 @@
-.login-bar {
+.create-character {
 	font-family: Lato;
 	
-	mat-label {
-		color: white;
+	mat-form-field {
+		width: 400px;
 	}
 
-	.username, .password {
-		width: 300px;
+	mat-label {
+		color: white;
 	}
 
 	input {
@@ -20,7 +20,7 @@
 	}
 
 	.buttons {
-		margin-top: 10px;
+		margin-top: 20px;
 	}
 
 	button:hover {

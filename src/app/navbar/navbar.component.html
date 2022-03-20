@@ -3,33 +3,39 @@
       [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
       [mode]="(isHandset$ | async) ? 'over' : 'side'"
       [opened]="(isHandset$ | async) === false">
-    <mat-toolbar>{{ accountService.loggedIn ? accountService.account?.character_name : 'Menu' }}</mat-toolbar>
+    <mat-toolbar>Menu</mat-toolbar>
     <mat-nav-list>
-      <a mat-list-item [href]="accountService.loggedIn ? '/logout/' : '/login/'">{{ !accountService.loggedIn ? "Login" : "Logout" }}</a>
-      <a mat-list-item [href]="!accountService.loggedIn ? '#' : '/'" [disabled]="!accountService.loggedIn">Home</a>
+      <a mat-list-item [routerLink]="accountService.loggedIn ? '/logout' : '/login'">{{ !accountService.loggedIn ? "Login" : "Logout" }}</a>
+      <a mat-list-item [routerLink]="!accountService.loggedIn ? '#' : '/'" [disabled]="!accountService.loggedIn" [ngClass]="{ 'disable-select': !accountService.loggedIn }">Home</a>
       <mat-accordion>
-        <mat-expansion-panel class="acp" hideToggle [disabled]="!accountService.loggedIn">
+        <mat-expansion-panel class="acp" [ngClass]="{ disabled: !accountService.loggedIn || accountService.account?.admin_level === 0, 'disable-select': !accountService.loggedIn }" hideToggle [disabled]="!accountService.loggedIn || accountService.account?.admin_level === 0">
           <mat-expansion-panel-header>
             <mat-panel-title>
               Admin Control Panel
             </mat-panel-title>
           </mat-expansion-panel-header>
-          <a mat-list-item [href]="!accountService.loggedIn ? '#' : '/acp/createuser'" [disabled]="!accountService.loggedIn">Create User</a>
+          <a mat-list-item [routerLink]="!accountService.loggedIn ? '#' : '/acp/createuser'" [disabled]="!accountService.loggedIn">Account Editor</a>
+          <a mat-list-item [routerLink]="!accountService.loggedIn ? '#' : '#'" [disabled]="true">Something Else</a>
+          <a mat-list-item [routerLink]="!accountService.loggedIn ? '#' : '#'" [disabled]="true">Something Else</a>
+          <a mat-list-item [routerLink]="!accountService.loggedIn ? '#' : '#'" [disabled]="true">Something Else</a>
         </mat-expansion-panel>
       </mat-accordion>
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content>
     <mat-toolbar color="primary">
-      <span>Los Santos Police Department - Metropolitan Division</span>
+      <div class="toolbar">
+        <span>{{ accountService.loggedIn ? accountService.account!.character_name + ' (' + accountService.account!.username + ') - ' : '' }} Metropolitan Division</span>
+        <span class="notice" *ngIf="accountService.account?.awaiting_approval"><i class="fa-solid fa-triangle-exclamation"></i> Your account is currently awaiting approval by an administrator. You may not log in to the game server until your account is activated.</span>
+      </div>
     </mat-toolbar>
     <div class="main-content">
-      <app-login *ngIf="router.url === '/login' && !accountService.loggedIn"></app-login>
+      <app-login *ngIf="router.url === '/login' && !accountService.loggedIn || !accountService.loggedIn && !accountService.currentlyLoggingOut"></app-login>
       <app-adduser *ngIf="router.url === '/acp/createuser' && accountService.loggedIn && accountService.account!.admin_level > 0"></app-adduser>
-      <app-acp *ngIf="router.url === '/acp/' && accountService.loggedIn && accountService.account!.admin_level > 0"></app-acp>
-      <div class="home">
-        Home
-      </div>
+      <app-acp *ngIf="router.url === '/acp' && accountService.loggedIn && accountService.account!.admin_level > 0"></app-acp>
+      <app-logout *ngIf="router.url === '/logout' && this.accountService.loggedIn || this.accountService.currentlyLoggingOut"></app-logout>
+      <app-home *ngIf="router.url === '/' && accountService.loggedIn && accountService.account!.character_name !== 'Unset'"></app-home>
+      <app-create-character *ngIf="accountService.loggedIn && accountService.account!.character_name === 'Unset'"></app-create-character>
     </div>
   </mat-sidenav-content>
 </mat-sidenav-container>

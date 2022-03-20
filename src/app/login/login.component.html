@@ -2,22 +2,29 @@
 	<div>
 		<mat-form-field class="username" appearance="fill">
 			<mat-label>Username</mat-label>
-			<input matInput type="text" name="metro-ucp-username" autofocus [(ngModel)]="usernameValue" autocomplete="off">
+			<input matInput [errorStateMatcher]="matcher" [formControl]="loginUsernameControl" type="text" name="metro-ucp-username" autofocus [(ngModel)]="usernameValue" autocomplete="off">
 			<button *ngIf="usernameValue" matSuffix mat-icon-button aria-label="Clear" (click)="usernameValue=''">
 				<mat-icon>close</mat-icon>
 			</button>
+			<mat-error *ngIf="loginUsernameControl.hasError('required')">
+				Please enter a username.
+			</mat-error>
 		</mat-form-field>
 	</div>
 	<div>
 		<mat-form-field class="password" appearance="fill">
 			<mat-label>Password</mat-label>
-			<input matInput name="metro-ucp-password" type="password" [(ngModel)]="passwordValue" autocomplete="off">
+			<input matInput [errorStateMatcher]="matcher" [formControl]="loginPasswordControl" name="metro-ucp-password" type="password" [(ngModel)]="passwordValue" autocomplete="off">
 			<button *ngIf="passwordValue" matSuffix mat-icon-button aria-label="Clear" (click)="passwordValue=''">
 				<mat-icon>close</mat-icon>
 			</button>
+			<mat-error *ngIf="loginPasswordControl.hasError('required')">
+				Please enter a password.
+			</mat-error>
 		</mat-form-field>
 	</div>
-	<div>
+	<div class="buttons">
 		<button mat-raised-button color="primary" [disabled]="processingLogin" (click)="!processingLogin ? processLogin() : null">Log in</button>
+		<button mat-raised-button style="margin-left: 20px;" color="warn" [disabled]="processingLogin" (click)="!processingLogin ? processRegister() : null">Register</button>
 	</div>
 </div>

@@ -1,1 +1,19 @@
-<p>acp works!</p>
+<div class="acp-wrapper">
+	<mat-grid-list cols="2" rowHeight="2.5:1">
+		<mat-grid-tile id="stats" (click)="router.navigateByUrl('/acp/createuser')">
+			Account Editor
+		</mat-grid-tile>
+		<mat-grid-tile id="live-map" class="coming-soon">
+			Something Else
+			<div class="coming-soon-notice">Coming Soon</div>
+		</mat-grid-tile>
+		<mat-grid-tile class="coming-soon">
+			Something Else
+			<div class="coming-soon-notice">Coming Soon</div>
+		</mat-grid-tile>
+		<mat-grid-tile class="coming-soon">
+			Something Else
+			<div class="coming-soon-notice">Coming Soon</div>
+		</mat-grid-tile>
+	</mat-grid-list>
+</div>

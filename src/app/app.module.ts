@@ -19,12 +19,15 @@ import { MatListModule } from '@angular/material/list';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatCardModule } from '@angular/material/card';
 import { MatMenuModule } from '@angular/material/menu';
-import { CookieService } from 'ngx-cookie-service';
+import { CookieModule } from 'ngx-cookie';
 import { AccountService } from './account.service';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { AcpComponent } from './acp/acp.component';
 import { LogoutComponent } from './logout/logout.component';
+import { HomeComponent } from './home/home.component';
+import { ReactiveFormsModule } from '@angular/forms';
+import { CreateCharacterComponent } from './create-character/create-character.component';
 
 @NgModule({
   declarations: [
@@ -34,6 +37,8 @@ import { LogoutComponent } from './logout/logout.component';
     NavbarComponent,
     AcpComponent,
     LogoutComponent,
+    HomeComponent,
+    CreateCharacterComponent,
   ],
   imports: [
     BrowserModule,
@@ -52,9 +57,11 @@ import { LogoutComponent } from './logout/logout.component';
     HttpClientModule,
     FormsModule,
     MatExpansionModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    CookieModule.forRoot(),
+    ReactiveFormsModule
   ],
-  providers: [ CookieService, AccountService ],
+  providers: [ CookieModule, AccountService ],
   bootstrap: [AppComponent]
 })
 export class AppModule {

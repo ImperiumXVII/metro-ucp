@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { CookieService } from 'ngx-cookie-service';
+import { Router } from '@angular/router';
 import { AccountService } from '../account.service';
 
 @Component({
@@ -9,12 +9,22 @@ import { AccountService } from '../account.service';
 })
 export class LogoutComponent implements OnInit {
 
-  constructor(private accountService: AccountService, private cookieService: CookieService) { }
+  secondsToRefresh = 3;
+
+  constructor(private accountService: AccountService, private router: Router) { }
 
   ngOnInit(): void {
-    this.cookieService.set('metro-logged-in', 'false');
-    this.cookieService.set('metro-name', '');
-    delete this.accountService.account;
+    this.accountService.currentlyLoggingOut = true;
+    this.accountService.loggedIn = false;
+
+    let interval = setInterval(() => {
+      this.secondsToRefresh --;
+      if(this.secondsToRefresh === 0) {
+        clearInterval(interval);
+        this.accountService.currentlyLoggingOut = false;
+        this.router.navigateByUrl('/login');
+      }
+    }, 1000);
   }
 
 }

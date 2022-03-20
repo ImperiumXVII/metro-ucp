@@ -35,7 +35,7 @@ $metro-cup-theme: mat.define-light-theme((
 
 /* You can add global styles to this file, and also import other style files */
 
-html, body { height: 100%; }
+html, body { height: 100%; overflow: hidden; }
 body { margin: 0; font-family: Lato, "Helvetica Neue", sans-serif; }
 
 * {
@@ -43,11 +43,37 @@ body { margin: 0; font-family: Lato, "Helvetica Neue", sans-serif; }
 }
 
 .mat-snack-bar-container.success {
-	background-color: lightgreen;
-  color: black;
+  text-align: center;
+	background-color: #46a35e;
+  color: hsla(0,0%,100%,.7);
+  font-weight: 600;
+  display: inline-block;
+
+  &::before {
+    font-family: "Font Awesome 5 Free";
+    content: "\f058";
+    display: inline-block;
+    padding-right: 3px;
+    vertical-align: middle;
+    font-weight: 900;
+    font-size: 24px;
+  }
 }
 
 .mat-snack-bar-container.failure {
-	background-color: lightcoral;
-  color: black;
+  text-align: center;
+	background-color: #f44336;
+  color: hsla(0,0%,100%,.7);
+  font-weight: 600;
+  display: inline-block;
+
+  &::before {
+    font-family: "Font Awesome 5 Free";
+    content: "\f071";
+    display: inline-block;
+    padding-right: 3px;
+    vertical-align: middle;
+    font-weight: 900;
+    font-size: 24px;
+  }
 }

@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import CryptoES from 'crypto-es';
+import { CookieService } from 'ngx-cookie';
 import { PASSWORD_HASH } from 'src/environments/hash';
 
 export interface Account {
@@ -23,10 +24,12 @@ export interface Account {
 })
 export class AccountService {
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private cookieService: CookieService) {}
 
   private _loggedIn = false;
+  currentlyLoggingOut = false;
   account?: Account;
+  submittedLogin = false;
 
   get loggedIn() {
     return this._loggedIn;
@@ -34,6 +37,14 @@ export class AccountService {
 
   set loggedIn(loggedIn: boolean) {
     this._loggedIn = loggedIn;
+    
+    if(loggedIn === false) {
+      this.cookieService.removeAll();
+      delete this.account;
+    } else {
+      this.cookieService.put('metro-loggedin', 'true');
+      this.cookieService.putObject('metro-account', this.account!);
+    }
   }
 
   async getAccountInfo(username: string) {
@@ -60,7 +71,58 @@ export class AccountService {
       });
       setTimeout(() => {
         resolve(account);
-      }, 1000);
+      }, 2000);
+    });
+    if(response) {
+      this.account = response;
+      return true;
+    }
+    return false;
+  }
+
+  async changeCharacterName(username: string, charName: string) {
+    let response = await new Promise<Account | { error: number }>(resolve => {
+      let account: Account | { error: number };
+      this.http.post<Account | { error: number }>(`http://localhost:3000/set-name`, { username: username, characterName: charName }).subscribe(res => {
+        console.log(res);
+        account = res;
+      });
+      setTimeout(() => {
+        resolve(account);
+      }, 3000);
+    });
+    if(response) {
+      console.log(response);
+      const keys = Object.keys(response);
+      if(keys[0] === 'error') {
+        return (<{ error: number }>response).error;
+      }
+      this.account = <Account>response;
+      return 2;
+    } else {
+      return -2;
+    }
+  }
+
+  async register(username: string, password: string) {
+    const encryptedPassword = CryptoES.HmacSHA256(password, PASSWORD_HASH).toString();
+    let ipAddress = await new Promise<string>(resolve => {
+      this.http.get("http://api.ipify.org/?format=json").subscribe((res: any)=>{
+        setTimeout(() => {
+          resolve(res.ip);
+        }, 1000);
+      });
+    });
+    console.log(ipAddress);
+
+    let response = await new Promise<Account>(resolve => {
+      let account: Account;
+      this.http.post<Account>(`http://localhost:3000/register`, { username: username, password: encryptedPassword, ipAddress: ipAddress }).subscribe(res => {
+        account = res;
+      });
+      setTimeout(() => {
+        resolve(account);
+      }, 3000);
     });
     if(response) {
       this.account = response;

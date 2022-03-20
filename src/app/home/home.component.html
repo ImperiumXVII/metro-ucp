@@ -1,0 +1,17 @@
+<div class="home-wrapper">
+	<mat-grid-list cols="2" rowHeight="2.5:1">
+		<mat-grid-tile id="stats" class="coming-soon">
+			Statistics
+			<div class="coming-soon-notice">Coming Soon</div>
+		</mat-grid-tile>
+		<mat-grid-tile id="live-map" class="coming-soon">
+			Live Map
+			<div class="coming-soon-notice">Coming Soon</div>
+		</mat-grid-tile>
+		<mat-grid-tile class="coming-soon">
+			Something Else
+			<div class="coming-soon-notice">Coming Soon</div>
+		</mat-grid-tile>
+		<mat-grid-tile id="ACP" [ngClass]="{ disabled: accountService.account!.admin_level === 0 }" (click)="accountService.account!.admin_level !== 0 ? router.navigateByUrl('/acp') : showErrorSnackbar()">Administration Control Panel</mat-grid-tile>
+	</mat-grid-list>
+</div>

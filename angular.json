@@ -23,6 +23,8 @@
             "outputPath": "dist/metro-cup",
             "index": "src/index.html",
             "main": "src/main.ts",
+            "baseHref": "/lsrp/lspd/metro/",
+            "deployUrl": "/lsrp/lspd/metro/",
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",

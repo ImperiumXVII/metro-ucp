@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { AccountService } from '../account.service';
 
 @Component({
   selector: 'app-acp',
@@ -7,7 +9,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AcpComponent implements OnInit {
 
-  constructor() { }
+  constructor(public accountService: AccountService, public router: Router) { }
 
   ngOnInit(): void {
   }
