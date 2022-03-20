@@ -30,6 +30,7 @@ export class CreateCharacterComponent implements OnInit {
   }
 
   async setName() {
+    this.processingCharacter = true;
     const result = await this.accountService.changeCharacterName(this.accountService.account!.username, this.nameValue);
     switch (result) {
       case 2:
