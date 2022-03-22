@@ -8,6 +8,19 @@
       <a mat-list-item [routerLink]="accountService.loggedIn ? '/logout' : '/login'">{{ !accountService.loggedIn ? "Login" : "Logout" }}</a>
       <a mat-list-item [routerLink]="!accountService.loggedIn ? '#' : '/'" [disabled]="!accountService.loggedIn" [ngClass]="{ 'disable-select': !accountService.loggedIn }">Home</a>
       <mat-accordion>
+        <mat-expansion-panel class="ucp" [ngClass]="{ disabled: !accountService.loggedIn, 'disable-select': !accountService.loggedIn }" hideToggle [disabled]="!accountService.loggedIn">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              User Control Panel
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <a mat-list-item [routerLink]="!accountService.loggedIn ? '#' : '/ucp/statistics'" [disabled]="!accountService.loggedIn">Statistics</a>
+          <a mat-list-item [routerLink]="!accountService.loggedIn ? '#' : '#'" [disabled]="true">Live Map</a>
+          <a mat-list-item [routerLink]="!accountService.loggedIn ? '#' : '#'" [disabled]="true">Something Else</a>
+          <a mat-list-item [routerLink]="!accountService.loggedIn ? '#' : '#'" [disabled]="true">Change Password</a>
+        </mat-expansion-panel>
+      </mat-accordion>
+      <mat-accordion>
         <mat-expansion-panel class="acp" [ngClass]="{ disabled: !accountService.loggedIn || accountService.account?.admin_level === 0, 'disable-select': !accountService.loggedIn }" hideToggle [disabled]="!accountService.loggedIn || accountService.account?.admin_level === 0">
           <mat-expansion-panel-header>
             <mat-panel-title>

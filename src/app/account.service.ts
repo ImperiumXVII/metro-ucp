@@ -2,7 +2,8 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import CryptoES from 'crypto-es';
 import { CookieService } from 'ngx-cookie';
-import { PASSWORD_HASH } from 'src/environments/hash';
+import { API_URL, PASSWORD_HASH } from 'src/environments/hash';
+import { SafeAccount } from './adduser/adduser.component';
 
 export interface Account {
   id: number;
@@ -23,13 +24,15 @@ export interface Account {
   providedIn: 'root'
 })
 export class AccountService {
-
   constructor(private http: HttpClient, private cookieService: CookieService) {}
 
   private _loggedIn = false;
   currentlyLoggingOut = false;
   account?: Account;
   submittedLogin = false;
+
+  gettingDeactivatedUsers = false;
+  activatingUser = false;
 
   get loggedIn() {
     return this._loggedIn;
@@ -47,10 +50,60 @@ export class AccountService {
     }
   }
 
+  async activateAccount(username: string) {
+    this.activatingUser = true;
+    this.http.get<void>(`${API_URL}/activate/${username}`).subscribe();
+    await new Promise<void>(resolve => {
+      setTimeout(() => {
+        this.activatingUser = false;
+        resolve();
+      }, 1000);
+    });
+    return true;
+  }
+
+  async deactivateAccount(username: string) {
+    this.activatingUser = true;
+    this.http.get<void>(`${API_URL}/deactivate/${username}`).subscribe();
+    await new Promise<void>(resolve => {
+      setTimeout(() => {
+        this.activatingUser = false;
+        resolve();
+      }, 1000);
+    });
+    return true;
+  }
+
+  async getUsersAwaitingActivation(): Promise<SafeAccount[]> {
+    let response = await new Promise<SafeAccount[]>(resolve => {
+      let users: SafeAccount[];
+      this.http.get<SafeAccount[]>(`${API_URL}/get-awaiting`).subscribe(res => {
+        users = res;
+      });
+      setTimeout(() => {
+        resolve(users);
+      }, 1000);
+    });
+    return response;
+  }
+
+  async getActivatedUsers(): Promise<SafeAccount[]> {
+    let response = await new Promise<SafeAccount[]>(resolve => {
+      let users: SafeAccount[];
+      this.http.get<SafeAccount[]>(`${API_URL}/get-activated`).subscribe(res => {
+        users = res;
+      });
+      setTimeout(() => {
+        resolve(users);
+      }, 1000);
+    });
+    return response;
+  }
+
   async getAccountInfo(username: string) {
     let response = await new Promise<Account>(resolve => {
       let account: Account;
-      this.http.post<Account>(`http://localhost:3000/update`, { username: username }).subscribe(res => {
+      this.http.post<Account>(`${API_URL}/update`, { username: username }).subscribe(res => {
         account = res;
       });
       setTimeout(() => {
@@ -66,7 +119,7 @@ export class AccountService {
     const encryptedPassword = CryptoES.HmacSHA256(password, PASSWORD_HASH).toString();
     let response = await new Promise<Account>(resolve => {
       let account: Account;
-      this.http.post<Account>(`http://localhost:3000/login`, { username: username, password: encryptedPassword }).subscribe(res => {
+      this.http.post<Account>(`${API_URL}/login`, { username: username, password: encryptedPassword }).subscribe(res => {
         account = res;
       });
       setTimeout(() => {
@@ -83,7 +136,7 @@ export class AccountService {
   async changeCharacterName(username: string, charName: string) {
     let response = await new Promise<Account | { error: number }>(resolve => {
       let account: Account | { error: number };
-      this.http.post<Account | { error: number }>(`http://localhost:3000/set-name`, { username: username, characterName: charName }).subscribe(res => {
+      this.http.post<Account | { error: number }>(`${API_URL}/set-name`, { username: username, characterName: charName }).subscribe(res => {
         console.log(res);
         account = res;
       });
@@ -107,7 +160,7 @@ export class AccountService {
   async register(username: string, password: string) {
     const encryptedPassword = CryptoES.HmacSHA256(password, PASSWORD_HASH).toString();
     let ipAddress = await new Promise<string>(resolve => {
-      this.http.get("http://api.ipify.org/?format=json").subscribe((res: any)=>{
+      this.http.get("https://api.ipify.org/?format=json").subscribe((res: any)=>{
         setTimeout(() => {
           resolve(res.ip);
         }, 1000);
@@ -117,7 +170,7 @@ export class AccountService {
 
     let response = await new Promise<Account>(resolve => {
       let account: Account;
-      this.http.post<Account>(`http://localhost:3000/register`, { username: username, password: encryptedPassword, ipAddress: ipAddress }).subscribe(res => {
+      this.http.post<Account>(`${API_URL}/register`, { username: username, password: encryptedPassword, ipAddress: ipAddress }).subscribe(res => {
         account = res;
       });
       setTimeout(() => {

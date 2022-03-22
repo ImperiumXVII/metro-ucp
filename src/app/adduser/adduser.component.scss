@@ -1,0 +1,55 @@
+div.awaiting-activation {
+	color: white;
+	font-weight: 600;
+	display: grid;
+	grid-template-columns: auto auto;
+
+	.list-header {
+		font-size: 24px;
+		margin-bottom: 8px;
+	}
+	
+	.mat-list-base .mat-list-item {
+
+		color: white;
+		font-weight: 500;
+
+		.interior {
+			display: block;
+			cursor: default;
+			
+			.fa-solid {
+				margin-right: 4px;
+				cursor: pointer;
+			}
+		}
+	}
+}
+
+.foreground {
+	top: 0;
+	left: 0;
+	position: absolute;
+
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 80%;
+	width: 100%;
+
+	.fa-spinner {
+		color: white;
+		font-size: 144px;
+
+		animation: spin 1000ms infinite linear;
+	}
+}
+
+@keyframes spin {
+    from {
+        transform:rotate(0deg);
+    }
+    to {
+        transform:rotate(360deg);
+    }
+}
