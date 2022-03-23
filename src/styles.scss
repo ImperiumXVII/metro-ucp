@@ -42,6 +42,25 @@ body { margin: 0; font-family: Lato, "Helvetica Neue", sans-serif; }
   font-family: Lato, Roboto, Georgia, sans-serif;
 }
 
+.rank-list-item.mat-list-item {
+	.mat-list-item-content {
+		display: block !important;
+	}
+}
+
+.hint {
+  line-height: normal;
+  font-size: 12px;
+}
+
+button.save-ranks {
+  background-color: #273446;
+  line-height: normal;
+  padding: 8px 0;
+  float: right;
+  color: hsla(0,0%,100%,.7);
+}
+
 .mat-snack-bar-container.success {
   text-align: center;
 	background-color: #46a35e;

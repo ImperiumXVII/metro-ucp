@@ -2,7 +2,8 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import CryptoES from 'crypto-es';
 import { CookieService } from 'ngx-cookie';
-import { API_URL, PASSWORD_HASH } from 'src/environments/hash';
+import { PASSWORD_HASH } from 'src/environments/hash';
+import { environment } from 'src/environments/environment';
 import { SafeAccount } from './adduser/adduser.component';
 
 export interface Account {
@@ -20,6 +21,14 @@ export interface Account {
 	a_platoon: boolean;
 }
 
+export interface Rank {
+  id: number;
+  name: string;
+  needed_modify_power: number;
+  modify_power: number;
+  permissions: string[];
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -30,6 +39,9 @@ export class AccountService {
   currentlyLoggingOut = false;
   account?: Account;
   submittedLogin = false;
+
+  ranks: Rank[] = [];
+  rankName: string = '';
 
   gettingDeactivatedUsers = false;
   activatingUser = false;
@@ -50,65 +62,70 @@ export class AccountService {
     }
   }
 
+  async savePermissions(rankId: number, permissions: { [permission: string]: boolean; }) {
+    const result = await new Promise<{ success: boolean; error: string }>(resolve => {
+      this.http.post<{ success: boolean; error: string }>(`${environment.API_URL}/permissions/save`, { rankId: rankId, permissions: permissions }).subscribe((result) => {
+        resolve(result);
+      });
+    });
+    return {
+      success: result.success,
+      error: result.error
+    }
+  }
+
   async activateAccount(username: string) {
     this.activatingUser = true;
-    this.http.get<void>(`${API_URL}/activate/${username}`).subscribe();
     await new Promise<void>(resolve => {
-      setTimeout(() => {
+      this.http.get<void>(`${environment.API_URL}/activate/${username}`).subscribe(() => {
         this.activatingUser = false;
         resolve();
-      }, 1000);
+      });
     });
     return true;
   }
 
+  async getRanks(): Promise<Rank[]> {
+    const ranks = await new Promise<Rank[]>(resolve => {
+      this.http.get<Rank[]>(`${environment.API_URL}/getranks`).subscribe((rank) => resolve(rank));
+    });
+    return ranks;
+  }
+
   async deactivateAccount(username: string) {
     this.activatingUser = true;
-    this.http.get<void>(`${API_URL}/deactivate/${username}`).subscribe();
     await new Promise<void>(resolve => {
-      setTimeout(() => {
+      this.http.get<void>(`${environment.API_URL}/deactivate/${username}`).subscribe(() => {
         this.activatingUser = false;
         resolve();
-      }, 1000);
+      });
     });
     return true;
   }
 
   async getUsersAwaitingActivation(): Promise<SafeAccount[]> {
     let response = await new Promise<SafeAccount[]>(resolve => {
-      let users: SafeAccount[];
-      this.http.get<SafeAccount[]>(`${API_URL}/get-awaiting`).subscribe(res => {
-        users = res;
+      this.http.get<SafeAccount[]>(`${environment.API_URL}/get-awaiting`).subscribe(res => {
+        resolve(res);
       });
-      setTimeout(() => {
-        resolve(users);
-      }, 1000);
     });
     return response;
   }
 
   async getActivatedUsers(): Promise<SafeAccount[]> {
     let response = await new Promise<SafeAccount[]>(resolve => {
-      let users: SafeAccount[];
-      this.http.get<SafeAccount[]>(`${API_URL}/get-activated`).subscribe(res => {
-        users = res;
+      this.http.get<SafeAccount[]>(`${environment.API_URL}/get-activated`).subscribe(res => {
+        resolve(res);
       });
-      setTimeout(() => {
-        resolve(users);
-      }, 1000);
     });
     return response;
   }
 
   async getAccountInfo(username: string) {
     let response = await new Promise<Account>(resolve => {
-      let account: Account;
-      this.http.post<Account>(`${API_URL}/update`, { username: username }).subscribe(res => {
-        account = res;
+      this.http.post<Account>(`${environment.API_URL}/update`, { username: username }).subscribe(res => {
+        resolve(res);
       });
-      setTimeout(() => {
-        resolve(account);
-      }, 1000);
     });
     if(response) {
       this.account = response;
@@ -118,13 +135,9 @@ export class AccountService {
   async login(username: string, password: string) {
     const encryptedPassword = CryptoES.HmacSHA256(password, PASSWORD_HASH).toString();
     let response = await new Promise<Account>(resolve => {
-      let account: Account;
-      this.http.post<Account>(`${API_URL}/login`, { username: username, password: encryptedPassword }).subscribe(res => {
-        account = res;
+      this.http.post<Account>(`${environment.API_URL}/login`, { username: username, password: encryptedPassword }).subscribe(res => {
+        resolve(res);
       });
-      setTimeout(() => {
-        resolve(account);
-      }, 2000);
     });
     if(response) {
       this.account = response;
@@ -135,17 +148,11 @@ export class AccountService {
 
   async changeCharacterName(username: string, charName: string) {
     let response = await new Promise<Account | { error: number }>(resolve => {
-      let account: Account | { error: number };
-      this.http.post<Account | { error: number }>(`${API_URL}/set-name`, { username: username, characterName: charName }).subscribe(res => {
-        console.log(res);
-        account = res;
+      this.http.post<Account | { error: number }>(`${environment.API_URL}/set-name`, { username: username, characterName: charName }).subscribe(res => {
+        resolve(res);
       });
-      setTimeout(() => {
-        resolve(account);
-      }, 3000);
     });
     if(response) {
-      console.log(response);
       const keys = Object.keys(response);
       if(keys[0] === 'error') {
         return (<{ error: number }>response).error;
@@ -160,22 +167,17 @@ export class AccountService {
   async register(username: string, password: string) {
     const encryptedPassword = CryptoES.HmacSHA256(password, PASSWORD_HASH).toString();
     let ipAddress = await new Promise<string>(resolve => {
-      this.http.get("https://api.ipify.org/?format=json").subscribe((res: any)=>{
-        setTimeout(() => {
-          resolve(res.ip);
-        }, 1000);
+      this.http.get("https://api.ipify.org/?format=json").subscribe((res: any) =>{
+        resolve(res.ip);
+      }, () => {
+        resolve('0.0.0.0');
       });
     });
-    console.log(ipAddress);
 
     let response = await new Promise<Account>(resolve => {
-      let account: Account;
-      this.http.post<Account>(`${API_URL}/register`, { username: username, password: encryptedPassword, ipAddress: ipAddress }).subscribe(res => {
-        account = res;
+      this.http.post<Account>(`${environment.API_URL}/register`, { username: username, password: encryptedPassword, ipAddress: ipAddress }).subscribe(res => {
+        resolve(res);
       });
-      setTimeout(() => {
-        resolve(account);
-      }, 3000);
     });
     if(response) {
       this.account = response;

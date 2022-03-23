@@ -38,17 +38,19 @@
   <mat-sidenav-content>
     <mat-toolbar color="primary">
       <div class="toolbar">
-        <span>{{ accountService.loggedIn ? accountService.account!.character_name + ' (' + accountService.account!.username + ') - ' : '' }} Metropolitan Division</span>
+        <span>{{ accountService.loggedIn ? accountService.rankName + ' ' + accountService.account!.character_name + ' (' + accountService.account!.username + ') - ' : '' }} Metropolitan Division</span>
         <span class="notice" *ngIf="accountService.account?.awaiting_approval"><i class="fa-solid fa-triangle-exclamation"></i> Your account is currently awaiting approval by an administrator. You may not log in to the game server until your account is activated.</span>
       </div>
     </mat-toolbar>
     <div class="main-content">
       <app-login *ngIf="router.url === '/login' && !accountService.loggedIn || !accountService.loggedIn && !accountService.currentlyLoggingOut"></app-login>
-      <app-adduser *ngIf="router.url === '/acp/createuser' && accountService.loggedIn && accountService.account!.admin_level > 0"></app-adduser>
-      <app-acp *ngIf="router.url === '/acp' && accountService.loggedIn && accountService.account!.admin_level > 0"></app-acp>
-      <app-logout *ngIf="router.url === '/logout' && this.accountService.loggedIn || this.accountService.currentlyLoggingOut"></app-logout>
-      <app-home *ngIf="router.url === '/' && accountService.loggedIn && accountService.account!.character_name !== 'Unset'"></app-home>
       <app-create-character *ngIf="accountService.loggedIn && accountService.account!.character_name === 'Unset'"></app-create-character>
+      <app-home *ngIf="router.url === '/' && accountService.loggedIn && accountService.account!.character_name !== 'Unset'"></app-home>
+      <app-acp *ngIf="router.url === '/acp' && accountService.loggedIn && accountService.account!.admin_level > 0"></app-acp>
+      <app-adduser *ngIf="router.url === '/acp/createuser' && accountService.loggedIn && accountService.account!.admin_level > 0"></app-adduser>
+      <app-permissions *ngIf="router.url === '/acp/permissions' && accountService.loggedIn && accountService.account!.admin_level > 0"></app-permissions>
+      <app-logout *ngIf="router.url === '/logout' && this.accountService.loggedIn || this.accountService.currentlyLoggingOut"></app-logout>
     </div>
+    <app-footer></app-footer>
   </mat-sidenav-content>
 </mat-sidenav-container>

@@ -1,0 +1,39 @@
+<div class="rank-list">
+	<mat-list role="list">
+		<div class="list-header">Ranks</div>
+		<mat-accordion multi>
+			<mat-list-item *ngFor="let rank of accountService.ranks" class="rank-list-item">
+				<mat-expansion-panel #[rank.id] class="rank" hideToggle>
+					<mat-expansion-panel-header>
+						<mat-panel-title>
+							{{ rank.id }}. {{ rank.name }}
+						</mat-panel-title>
+					</mat-expansion-panel-header>
+					<div class="properties">
+						<div class="row">
+							<div class="property" matTooltipClass="hint" matTooltip="The power needed for people with this rank to be modified by other people">Needed modify power:</div>
+							<div class="editable">{{ rank.needed_modify_power }}</div>
+						</div>
+						<div class="row">
+							<div class="property" matTooltipClass="hint" matTooltip="The power this rank has to modify other people">Modify power:</div>
+							<div class="editable">{{ rank.modify_power }}</div>
+						</div>
+					</div>
+					<span class="perm-title">Permissions:</span>
+					<div class="perm-parent">
+						<div class="permission" *ngFor="let permission of permissions">
+							<label class="container">
+								{{ permission }}
+								<input type="checkbox" [checked]="rank.permissions.includes(permission)" [ngModel]="newPermissions[rank.id][permission]" (ngModelChange)="permissionEnabled(rank.id, permission, $event)">
+								<span class="checkmark"></span>
+							</label>
+						</div>
+					</div>
+					<div class="save" *ngIf="permissionsChanged[rank.id]">
+						<button mat-raised-button class="save-ranks" (click)="savePermissions(rank.id)">Save</button>
+					</div>
+				</mat-expansion-panel>
+			</mat-list-item>
+		</mat-accordion>
+	</mat-list>
+</div>

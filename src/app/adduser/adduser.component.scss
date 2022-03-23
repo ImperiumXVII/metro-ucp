@@ -2,27 +2,66 @@ div.awaiting-activation {
 	color: white;
 	font-weight: 600;
 	display: grid;
-	grid-template-columns: auto auto;
+	grid-template-columns: auto auto auto;
+
+	.left, .right, .middle {
+		margin: 20px auto 0 auto;
+
+		mat-list {
+			height: 80vh;
+			overflow-y: scroll;
+
+			&::-webkit-scrollbar {
+				width: 5px;
+			}
+
+			&::-webkit-scrollbar-track {
+				background: transparent;
+			}
+
+			&::-webkit-scrollbar-thumb {
+				background: #3d4d64;
+				border-radius: 4px;
+			}
+
+			.mat-list-item {
+
+				color: white;
+				font-weight: 500;
+		
+				.user {
+					display: grid;
+					grid-template-columns: auto auto auto;
+		
+					.fa-square-plus {
+						color: green;
+						margin-left: 4px;
+						cursor: pointer;
+					}
+		
+					.fa-square-minus {
+						color: red;
+						margin-left: 4px;
+						cursor: pointer;
+					}
+		
+					.fa-pencil {
+						color: orange;
+						cursor: pointer;
+					}
+				}
+		
+				.interior {
+					display: block;
+					cursor: default;
+				}
+			}
+		}
+	}
 
 	.list-header {
 		font-size: 24px;
 		margin-bottom: 8px;
-	}
-	
-	.mat-list-base .mat-list-item {
-
-		color: white;
-		font-weight: 500;
-
-		.interior {
-			display: block;
-			cursor: default;
-			
-			.fa-solid {
-				margin-right: 4px;
-				cursor: pointer;
-			}
-		}
 	}
 }
 

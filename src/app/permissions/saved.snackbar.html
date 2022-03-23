@@ -1,0 +1,4 @@
+<div class="snackbar">
+	<div *ngIf="!data.error">New permissions for rank {{ data.rankId }} saved!</div>
+	<div *ngIf="data.error">Save failed for rank {{ data.rankId }}: {{ data.error }}</div>
+</div>

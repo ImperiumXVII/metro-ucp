@@ -1,12 +1,17 @@
 .login-bar {
 	font-family: Lato;
 	
-	mat-label {
+	mat-label, mat-hint {
 		color: white;
 	}
 
 	.username, .password {
 		width: 300px;
+		margin-bottom: 15px;
+	}
+
+	span.mat-placeholder-required.mat-form-field-required-marker {
+		color: white;
 	}
 
 	input {
@@ -17,10 +22,6 @@
 	button {
 		transition: transform 0.1s linear;
 		transform-origin: 0 0;
-	}
-
-	.buttons {
-		margin-top: 10px;
 	}
 
 	button:hover {

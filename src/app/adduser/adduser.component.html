@@ -1,20 +1,20 @@
 <div class="awaiting-activation">
 	<div class="left">
+		<div class="list-header">Users Currently Activated</div>
 		<mat-list role="list">
-			<div class="list-header">Users Awaiting Activation</div>
-			<mat-list-item *ngFor="let user of usersAwaitingActivation">
-				<div class="interior"><i (click)="activateUser(user.username)" class="fa-solid fa-square-plus"></i> <i (click)="editUser(user.username)" class="fa-solid fa-pencil"></i> {{ displayUser(user) }}</div>
+			<mat-list-item *ngFor="let user of activatedUsers">
+				<div class="user"><div class="edit"><i (click)="editUser(user.username)" class="fa-solid fa-pencil"></i></div><div class="interior"><i (click)="deactivateUser(user.username)" class="fa-solid fa-square-minus"></i> {{ displayUser(user) }}</div></div>
 			</mat-list-item>
 		</mat-list>
-		<div class="empty" *ngIf="!usersAwaitingActivation.length && !accountService.gettingDeactivatedUsers">
-			There are no users awaiting activation.
+		<div class="empty" *ngIf="!activatedUsers.length && !accountService.gettingDeactivatedUsers">
+			There are no users currently activated.
 		</div>
 	</div>
 	<div class="right">
+		<div class="list-header">Users Awaiting Activation</div>
 		<mat-list role="list">
-			<div class="list-header">Users Currently Activated</div>
-			<mat-list-item *ngFor="let user of activatedUsers">
-				<div class="interior"><i (click)="deactivateUser(user.username)" class="fa-solid fa-square-minus"></i> <i (click)="editUser(user.username)" class="fa-solid fa-pencil"></i> {{ displayUser(user) }}</div>
+			<mat-list-item *ngFor="let user of usersAwaitingActivation">
+				<div class="user"><div class="edit"><i (click)="editUser(user.username)" class="fa-solid fa-pencil"></i></div><div class="interior"><i (click)="activateUser(user.username)" class="fa-solid fa-square-plus"></i> {{ displayUser(user) }}</div></div>
 			</mat-list-item>
 		</mat-list>
 		<div class="empty" *ngIf="!usersAwaitingActivation.length && !accountService.gettingDeactivatedUsers">

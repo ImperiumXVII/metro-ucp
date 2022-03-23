@@ -6,6 +6,7 @@
 			<button *ngIf="usernameValue" matSuffix mat-icon-button aria-label="Clear" (click)="usernameValue=''">
 				<mat-icon>close</mat-icon>
 			</button>
+			<mat-hint><span style="font-weight: 600;">This should be your RageMP launcher username</span>.</mat-hint>
 			<mat-error *ngIf="loginUsernameControl.hasError('required')">
 				Please enter a username.
 			</mat-error>

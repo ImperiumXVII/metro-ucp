@@ -4,6 +4,7 @@ import { ErrorStateMatcher } from '@angular/material/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MAT_SNACK_BAR_DATA } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
+import { wait } from 'src/sleep';
 import { AccountService } from '../account.service';
 
 @Component({
@@ -21,12 +22,8 @@ export class LoginComponent implements OnInit {
   matcher = new LoginErrorStateMatcher();
 
   openSnackBar(success: boolean, message: string) {
-    this._snackBar.openFromComponent(LoginSnackbarComponent, { duration: 3000, panelClass: success ? 'success' : 'failure', data: { success: message } });
-    return new Promise<void>(resolve => {
-      setTimeout(() => {
-        resolve();
-      }, 2000);
-    })
+    this._snackBar.openFromComponent(LoginSnackbarComponent, { duration: 5000, panelClass: success ? 'success' : 'failure', data: { success: message } });
+    return wait(2000);
   }
 
   usernameValue = '';
@@ -64,7 +61,7 @@ export class LoginComponent implements OnInit {
 
     this.processingLogin = true;
     const login = await this.accountService.register(this.usernameValue, this.passwordValue);
-    await this.openSnackBar(login, login ? `Successfully registered with the username ${this.usernameValue}!` : `Registration failed - an account with this username already exists.`);
+    await this.openSnackBar(login, login ? `Successfully registered with the username ${this.usernameValue}! ${this.accountService.account?.ip_address === '0.0.0.0' ? '<br />Failed to get your IP due to ad-blocking or browser policy - automatic login will be disabled.' : null}` : `Registration failed - an account with this username already exists.`);
     if(login) {
       this.accountService.loggedIn = true;
       this.router.navigateByUrl('/');

@@ -16,6 +16,10 @@ export class AppComponent implements OnInit {
   constructor(private accountService: AccountService, private cookieService: CookieService, public router: Router) {}
   
   ngOnInit(): void {
+    this.accountService.getRanks().then(val => {
+      this.accountService.ranks = val;
+    });
+
     if(!this.accountService.loggedIn) {
       const cookie = this.cookieService.get('metro-loggedin');
       if(cookie === 'true') {

@@ -12,6 +12,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
@@ -28,6 +29,8 @@ import { LogoutComponent } from './logout/logout.component';
 import { HomeComponent } from './home/home.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CreateCharacterComponent } from './create-character/create-character.component';
+import { FooterComponent } from './footer/footer.component';
+import { PermissionsComponent, SavedSnackbar } from './permissions/permissions.component';
 
 @NgModule({
   declarations: [
@@ -39,6 +42,9 @@ import { CreateCharacterComponent } from './create-character/create-character.co
     LogoutComponent,
     HomeComponent,
     CreateCharacterComponent,
+    FooterComponent,
+    PermissionsComponent,
+    SavedSnackbar,
   ],
   imports: [
     BrowserModule,
@@ -49,6 +55,7 @@ import { CreateCharacterComponent } from './create-character/create-character.co
     MatButtonModule,
     MatSidenavModule,
     MatIconModule,
+    MatTooltipModule,
     MatInputModule,
     MatListModule,
     MatGridListModule,
@@ -64,6 +71,4 @@ import { CreateCharacterComponent } from './create-character/create-character.co
   providers: [ CookieModule, AccountService ],
   bootstrap: [AppComponent]
 })
-export class AppModule {
-  
-}
+export class AppModule {}
