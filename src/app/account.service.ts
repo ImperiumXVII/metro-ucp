@@ -12,7 +12,11 @@ export interface Account {
 	password: string;
 	admin_level: number;
 	rank: number;
-  position: { x: number, y: number, z: number, a: number, dimension: number };
+  x: number; 
+  y: number; 
+  z: number; 
+  a: number;
+  dimension: number;
   sex: number;
 	character_name: any;
 	ip_address: string;
