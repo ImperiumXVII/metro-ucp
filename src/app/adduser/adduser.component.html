@@ -3,7 +3,7 @@
 		<div class="list-header">Users Currently Activated</div>
 		<mat-list role="list">
 			<mat-list-item *ngFor="let user of activatedUsers">
-				<div class="user"><div class="edit"><i (click)="editUser(user.username)" class="fa-solid fa-pencil"></i></div><div class="interior"><i (click)="deactivateUser(user.username)" class="fa-solid fa-square-minus"></i> {{ displayUser(user) }}</div></div>
+				<div class="user"><div class="edit"><i (click)="editUser(user.id)" class="fa-solid fa-pencil"></i></div><div class="interior"><i (click)="deactivateUser(user.username)" class="fa-solid fa-square-minus"></i> {{ displayUser(user) }}</div></div>
 			</mat-list-item>
 		</mat-list>
 		<div class="empty" *ngIf="!activatedUsers.length && !accountService.gettingDeactivatedUsers">
@@ -14,7 +14,7 @@
 		<div class="list-header">Users Awaiting Activation</div>
 		<mat-list role="list">
 			<mat-list-item *ngFor="let user of usersAwaitingActivation">
-				<div class="user"><div class="edit"><i (click)="editUser(user.username)" class="fa-solid fa-pencil"></i></div><div class="interior"><i (click)="activateUser(user.username)" class="fa-solid fa-square-plus"></i> {{ displayUser(user) }}</div></div>
+				<div class="user"><div class="interior"><i (click)="activateUser(user.username)" class="fa-solid fa-square-plus"></i> {{ displayUser(user) }}</div></div>
 			</mat-list-item>
 		</mat-list>
 		<div class="empty" *ngIf="!usersAwaitingActivation.length && !accountService.gettingDeactivatedUsers">

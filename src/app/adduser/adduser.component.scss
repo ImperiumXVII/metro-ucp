@@ -1,86 +1,181 @@
-div.awaiting-activation {
-	color: white;
-	font-weight: 600;
-	display: grid;
-	grid-template-columns: auto auto auto;
+@media (min-width: 1025px) {
 
-	.left, .right, .middle {
-		margin: 20px auto 0 auto;
+	div.awaiting-activation {
+		color: white;
+		font-weight: 600;
+		display: grid;
+		grid-template-columns: auto auto auto;
+		margin-left: -120px;
 
-		mat-list {
-			height: 80vh;
-			overflow-y: scroll;
+		.left, .right, .middle {
+			margin: 20px auto 0 auto;
 
-			&::-webkit-scrollbar {
-				width: 5px;
-			}
+			mat-list {
+				height: 80vh;
+				overflow-y: scroll;
 
-			&::-webkit-scrollbar-track {
-				background: transparent;
-			}
-
-			&::-webkit-scrollbar-thumb {
-				background: #3d4d64;
-				border-radius: 4px;
-			}
-
-			.mat-list-item {
-
-				color: white;
-				font-weight: 500;
-		
-				.user {
-					display: grid;
-					grid-template-columns: auto auto auto;
-		
-					.fa-square-plus {
-						color: green;
-						margin-left: 4px;
-						cursor: pointer;
-					}
-		
-					.fa-square-minus {
-						color: red;
-						margin-left: 4px;
-						cursor: pointer;
-					}
-		
-					.fa-pencil {
-						color: orange;
-						cursor: pointer;
-					}
+				&::-webkit-scrollbar {
+					width: 5px;
 				}
-		
-				.interior {
-					display: block;
-					cursor: default;
+
+				&::-webkit-scrollbar-track {
+					background: transparent;
+				}
+
+				&::-webkit-scrollbar-thumb {
+					background: #3d4d64;
+					border-radius: 4px;
+				}
+
+				.mat-list-item {
+
+					color: white;
+					font-weight: 500;
+			
+					.user {
+						display: grid;
+						grid-template-columns: auto auto auto;
+			
+						.fa-square-plus {
+							color: green;
+							margin-left: 4px;
+							cursor: pointer;
+						}
+			
+						.fa-square-minus {
+							color: red;
+							margin-left: 4px;
+							cursor: pointer;
+						}
+			
+						.fa-pencil {
+							color: orange;
+							cursor: pointer;
+						}
+					}
+			
+					.interior {
+						display: block;
+						cursor: default;
+					}
 				}
 			}
 		}
+
+		.list-header {
+			font-size: 24px;
+			margin-bottom: 8px;
+		}
 	}
 
-	.list-header {
-		font-size: 24px;
-		margin-bottom: 8px;
+	.foreground {
+		top: 0;
+		left: 0;
+		position: absolute;
+
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		height: 80%;
+		width: 100%;
+
+		.fa-spinner {
+			color: white;
+			font-size: 144px;
+
+			animation: spin 1000ms infinite linear;
+		}
 	}
 }
 
-.foreground {
-	top: 0;
-	left: 0;
-	position: absolute;
-
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	height: 80%;
-	width: 100%;
-
-	.fa-spinner {
+@media (max-width: 1024px) {
+	div.awaiting-activation {
 		color: white;
-		font-size: 144px;
+		font-weight: 600;
+		display: grid;
+		grid-template-rows: auto auto;
+		grid-row-gap: 24px;
+		max-height: 100vh;
 
-		animation: spin 1000ms infinite linear;
+		.left, .right, .middle {
+
+			mat-list {
+				overflow-y: scroll;
+				max-height: 36vh;
+				padding-bottom: 4px;
+
+				&::-webkit-scrollbar {
+					width: 4px;
+				}
+
+				&::-webkit-scrollbar-track {
+					background: transparent;
+				}
+
+				&::-webkit-scrollbar-thumb {
+					background: #3d4d64;
+				}
+
+				.mat-list-item {
+
+					color: white;
+					font-weight: 500;
+					font-size: 14px;
+					margin: 0;
+			
+					.user {
+						display: grid;
+						grid-template-columns: auto auto auto;
+			
+						.fa-square-plus {
+							color: green;
+							margin-left: 4px;
+							cursor: pointer;
+						}
+			
+						.fa-square-minus {
+							color: red;
+							margin-left: 4px;
+							cursor: pointer;
+						}
+			
+						.fa-pencil {
+							color: orange;
+							cursor: pointer;
+						}
+					}
+			
+					.interior {
+						display: block;
+						cursor: default;
+					}
+				}
+			}
+		}
+
+		.list-header {
+			font-size: 16px;
+			margin-bottom: 8px;
+		}
+	}
+
+	.foreground {
+		top: 0;
+		left: 0;
+		position: absolute;
+
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		height: 80%;
+		width: 100%;
+
+		.fa-spinner {
+			color: white;
+			font-size: 144px;
+
+			animation: spin 1000ms infinite linear;
+		}
 	}
 }
 

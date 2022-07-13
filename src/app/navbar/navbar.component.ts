@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
 import { AccountService } from '../account.service';
 import { Router } from '@angular/router';
+import { BackgroundService } from '../background.service';
 
 @Component({
   selector: 'app-navbar',
@@ -18,6 +19,6 @@ export class NavbarComponent {
       shareReplay()
     );
 
-  constructor(private breakpointObserver: BreakpointObserver, public accountService: AccountService, public router: Router) {}
+  constructor(private breakpointObserver: BreakpointObserver, public accountService: AccountService, public router: Router, public backgroundService: BackgroundService) {}
 
 }

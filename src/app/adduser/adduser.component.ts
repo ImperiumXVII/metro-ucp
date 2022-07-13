@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie';
 import { AccountService } from '../account.service';
 
 export interface SafeAccount {
+  id: number;
   username: string;
   character_name: string;
   ip_address: string;
@@ -15,7 +17,7 @@ export interface SafeAccount {
 })
 export class AdduserComponent implements OnInit {
 
-  constructor(public accountService: AccountService, private cookieService: CookieService) { }
+  constructor(public accountService: AccountService, private cookieService: CookieService, private router: Router) { }
 
   usersAwaitingActivation: SafeAccount[] = [];
   activatedUsers: SafeAccount[] = [];
@@ -30,8 +32,8 @@ export class AdduserComponent implements OnInit {
     }
   }
 
-  async editUser(username: string) {
-    alert('edit user ' + username);
+  async editUser(userId: number) {
+    this.router.navigateByUrl('acp/accounts/edit/' + userId);
   }
 
   async deactivateUser(username: string) {

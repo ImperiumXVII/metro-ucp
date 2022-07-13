@@ -12,6 +12,8 @@ export interface Account {
 	password: string;
 	admin_level: number;
 	rank: number;
+  position: { x: number, y: number, z: number, a: number, dimension: number };
+  sex: number;
 	character_name: any;
 	ip_address: string;
 	platoon_a_cmd: boolean;
@@ -62,9 +64,9 @@ export class AccountService {
     }
   }
 
-  async savePermissions(rankId: number, permissions: { [permission: string]: boolean; }) {
+  async savePermissions(rankId: number, permissions: { [permission: string]: boolean; }, powers: { neededModifyPower: number; modifyPower: number }) {
     const result = await new Promise<{ success: boolean; error: string }>(resolve => {
-      this.http.post<{ success: boolean; error: string }>(`${environment.API_URL}/permissions/save`, { rankId: rankId, permissions: permissions }).subscribe((result) => {
+      this.http.post<{ success: boolean; error: string }>(`${environment.API_URL}/permissions/save`, { rankId, permissions, powers }).subscribe((result) => {
         resolve(result);
       });
     });

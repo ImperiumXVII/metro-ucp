@@ -31,6 +31,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { CreateCharacterComponent } from './create-character/create-character.component';
 import { FooterComponent } from './footer/footer.component';
 import { PermissionsComponent, SavedSnackbar } from './permissions/permissions.component';
+import { BackgroundService } from './background.service';
+import { EditUserComponent } from './edit-user/edit-user.component';
 
 @NgModule({
   declarations: [
@@ -45,6 +47,7 @@ import { PermissionsComponent, SavedSnackbar } from './permissions/permissions.c
     FooterComponent,
     PermissionsComponent,
     SavedSnackbar,
+    EditUserComponent,
   ],
   imports: [
     BrowserModule,
@@ -68,7 +71,7 @@ import { PermissionsComponent, SavedSnackbar } from './permissions/permissions.c
     CookieModule.forRoot(),
     ReactiveFormsModule
   ],
-  providers: [ CookieModule, AccountService ],
+  providers: [ CookieModule, AccountService, BackgroundService ],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

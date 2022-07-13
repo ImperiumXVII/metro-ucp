@@ -52,6 +52,34 @@
   display: block;
 }
 
+@media (max-width: 1024px) {
+  .mat-toolbar {
+    height: max-content;
+    padding: 4px 8px;
+    font-size: 16px;
+    line-height: normal;
+    font-weight: 600;
+
+    .notice {
+      font-weight: normal;
+      white-space: normal;
+    }
+  }
+}
+
+.server-status {
+  height: 16px;
+  width: 16px;
+  right: 24px;
+  background: red;
+  position: absolute;
+  border-radius: 8px;
+
+  &.online {
+    background: green;
+  }
+}
+
 .sidenav .mat-toolbar {
   background: #111827;
   color: white;

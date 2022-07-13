@@ -40,3 +40,32 @@
 		}
 	}
 }
+
+@media (max-width: 1024px) {
+	.home-wrapper {
+		font-size: 24px;
+		white-space: normal;
+		text-align: center;
+		overflow-y: scroll !important;
+
+		mat-grid-list {
+			display: block !important;
+			overflow-y: scroll !important;
+			height: 83vh;
+			padding-bottom: 0px !important;
+
+			mat-grid-tile {
+				background-color: #3d4d6422;
+				position: relative;
+				display: block !important;
+				margin: 0 !important;
+				left: 0 !important;
+				flex: 1 1 120px;
+				width: 100% !important;
+				margin-bottom: 8px !important;
+				height: 20vh;
+				padding: 16px 0 !important;
+			}
+		}
+	}
+}

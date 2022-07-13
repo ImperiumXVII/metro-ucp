@@ -1,6 +1,6 @@
 <div class="rank-list">
+	<div class="list-header">Ranks</div>
 	<mat-list role="list">
-		<div class="list-header">Ranks</div>
 		<mat-accordion multi>
 			<mat-list-item *ngFor="let rank of accountService.ranks" class="rank-list-item">
 				<mat-expansion-panel #[rank.id] class="rank" hideToggle>
@@ -11,12 +11,18 @@
 					</mat-expansion-panel-header>
 					<div class="properties">
 						<div class="row">
-							<div class="property" matTooltipClass="hint" matTooltip="The power needed for people with this rank to be modified by other people">Needed modify power:</div>
-							<div class="editable">{{ rank.needed_modify_power }}</div>
+							<div class="property" matTooltipClass="hint" matTooltipPosition="above" matTooltip="The power needed for people with this rank to be modified by other people">Needed modify power:</div>
+							<div class="values">
+								<input [readonly]="true" matTooltipClass="hint" matTooltip="Double-click to edit" matTooltipPosition="left" class="editable" [ngModel]="newPowers[rank.id].neededModifyPower" #needed [attr.rank]="rank.id" ondblclick="this.readOnly=''" (keydown)="onKeyDown(rank.id, $event, 'neededModifyPower')" [value]="newPowers[rank.id].neededModifyPower">
+								<span class="original" matTooltipClass="hint" matTooltip="Original value" matTooltipPosition="right" *ngIf="!powersChanged[rank.id].neededPower">({{ initialPowers[rank.id].neededModifyPower }})</span>
+							</div>
 						</div>
 						<div class="row">
-							<div class="property" matTooltipClass="hint" matTooltip="The power this rank has to modify other people">Modify power:</div>
-							<div class="editable">{{ rank.modify_power }}</div>
+							<div class="property" matTooltipClass="hint" matTooltipPosition="below" matTooltip="The power this rank has to modify other people">Modify power:</div>
+							<div class="values">
+								<input [readonly]="true" matTooltipClass="hint" matTooltip="Double-click to edit" matTooltipPosition="left" class="editable" [ngModel]="newPowers[rank.id].modifyPower" #modify [attr.rank]="rank.id" ondblclick="this.readOnly=''" (keydown)="onKeyDown(rank.id, $event, 'modifyPower')" [value]="newPowers[rank.id].modifyPower">
+								<span class="original" matTooltipClass="hint" matTooltip="Original value" matTooltipPosition="right" *ngIf="!powersChanged[rank.id].modifyPower">({{ initialPowers[rank.id].modifyPower }})</span>
+							</div>
 						</div>
 					</div>
 					<span class="perm-title">Permissions:</span>
