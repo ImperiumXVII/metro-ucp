@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie';
+import { environment } from 'src/environments/environment';
 import { AccountService } from '../account.service';
 
 export interface SafeAccount {
@@ -28,7 +29,7 @@ export class AdduserComponent implements OnInit {
     this.usersAwaitingActivation = this.usersAwaitingActivation.filter(user => user.username !== username);
     if(username === this.accountService.account?.username) {
       this.accountService.account!.awaiting_approval = false;
-      this.cookieService.putObject('metro-account', this.accountService.account!);
+      this.cookieService.putObject(environment.cookie_object, this.accountService.account!);
     }
   }
 
@@ -42,7 +43,7 @@ export class AdduserComponent implements OnInit {
     this.activatedUsers = this.activatedUsers.filter(user => user.username !== username);
     if(username === this.accountService.account?.username) {
       this.accountService.account!.awaiting_approval = true;
-      this.cookieService.putObject('metro-account', this.accountService.account!);
+      this.cookieService.putObject(environment.cookie_object, this.accountService.account!);
     }
   }
 

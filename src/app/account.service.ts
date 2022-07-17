@@ -63,14 +63,14 @@ export class AccountService {
       this.cookieService.removeAll();
       delete this.account;
     } else {
-      this.cookieService.put('metro-loggedin', 'true');
-      this.cookieService.putObject('metro-account', this.account!);
+      this.cookieService.put(environment.cookie_logged_in, 'true');
+      this.cookieService.putObject(environment.cookie_object, this.account!);
     }
   }
 
   async savePermissions(rankId: number, permissions: { [permission: string]: boolean; }, powers: { neededModifyPower: number; modifyPower: number }) {
     const result = await new Promise<{ success: boolean; error: string }>(resolve => {
-      this.http.post<{ success: boolean; error: string }>(`${environment.API_URL}/permissions/save`, { rankId, permissions, powers }).subscribe((result) => {
+      this.http.post<{ success: boolean; error: string }>(`${environment.API_URL}/${environment.department}/permissions/save`, { rankId, permissions, powers }).subscribe((result) => {
         resolve(result);
       });
     });
@@ -83,7 +83,7 @@ export class AccountService {
   async activateAccount(username: string) {
     this.activatingUser = true;
     await new Promise<void>(resolve => {
-      this.http.get<void>(`${environment.API_URL}/activate/${username}`).subscribe(() => {
+      this.http.get<void>(`${environment.API_URL}/${environment.department}/activate/${username}`).subscribe(() => {
         this.activatingUser = false;
         resolve();
       });
@@ -93,7 +93,7 @@ export class AccountService {
 
   async getRanks(): Promise<Rank[]> {
     const ranks = await new Promise<Rank[]>(resolve => {
-      this.http.get<Rank[]>(`${environment.API_URL}/getranks`).subscribe((rank) => resolve(rank));
+      this.http.get<Rank[]>(`${environment.API_URL}/${environment.department}/getranks`).subscribe((rank) => resolve(rank));
     });
     return ranks;
   }
@@ -101,7 +101,7 @@ export class AccountService {
   async deactivateAccount(username: string) {
     this.activatingUser = true;
     await new Promise<void>(resolve => {
-      this.http.get<void>(`${environment.API_URL}/deactivate/${username}`).subscribe(() => {
+      this.http.get<void>(`${environment.API_URL}/${environment.department}/deactivate/${username}`).subscribe(() => {
         this.activatingUser = false;
         resolve();
       });
@@ -111,7 +111,7 @@ export class AccountService {
 
   async getUsersAwaitingActivation(): Promise<SafeAccount[]> {
     let response = await new Promise<SafeAccount[]>(resolve => {
-      this.http.get<SafeAccount[]>(`${environment.API_URL}/get-awaiting`).subscribe(res => {
+      this.http.get<SafeAccount[]>(`${environment.API_URL}/${environment.department}/get-awaiting`).subscribe(res => {
         resolve(res);
       });
     });
@@ -120,7 +120,7 @@ export class AccountService {
 
   async getActivatedUsers(): Promise<SafeAccount[]> {
     let response = await new Promise<SafeAccount[]>(resolve => {
-      this.http.get<SafeAccount[]>(`${environment.API_URL}/get-activated`).subscribe(res => {
+      this.http.get<SafeAccount[]>(`${environment.API_URL}/${environment.department}/get-activated`).subscribe(res => {
         resolve(res);
       });
     });
@@ -129,7 +129,7 @@ export class AccountService {
 
   async getAccountInfo(username: string) {
     let response = await new Promise<Account>(resolve => {
-      this.http.post<Account>(`${environment.API_URL}/update`, { username: username }).subscribe(res => {
+      this.http.post<Account>(`${environment.API_URL}/${environment.department}/update`, { username: username }).subscribe(res => {
         resolve(res);
       });
     });
@@ -141,7 +141,7 @@ export class AccountService {
   async login(username: string, password: string) {
     const encryptedPassword = CryptoES.HmacSHA256(password, PASSWORD_HASH).toString();
     let response = await new Promise<Account>(resolve => {
-      this.http.post<Account>(`${environment.API_URL}/login`, { username: username, password: encryptedPassword }).subscribe(res => {
+      this.http.post<Account>(`${environment.API_URL}/${environment.department}/login`, { username: username, password: encryptedPassword }).subscribe(res => {
         resolve(res);
       });
     });
@@ -154,7 +154,7 @@ export class AccountService {
 
   async changeCharacterName(username: string, charName: string) {
     let response = await new Promise<Account | { error: number }>(resolve => {
-      this.http.post<Account | { error: number }>(`${environment.API_URL}/set-name`, { username: username, characterName: charName }).subscribe(res => {
+      this.http.post<Account | { error: number }>(`${environment.API_URL}/${environment.department}/set-name`, { username: username, characterName: charName }).subscribe(res => {
         resolve(res);
       });
     });
@@ -181,7 +181,7 @@ export class AccountService {
     });
 
     let response = await new Promise<Account>(resolve => {
-      this.http.post<Account>(`${environment.API_URL}/register`, { username: username, password: encryptedPassword, ipAddress: ipAddress }).subscribe(res => {
+      this.http.post<Account>(`${environment.API_URL}/${environment.department}/register`, { username: username, password: encryptedPassword, ipAddress: ipAddress }).subscribe(res => {
         resolve(res);
       });
     });

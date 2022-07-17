@@ -5,6 +5,9 @@
 export const environment = {
   production: false,
   API_URL: 'http://localhost:3000/api',
+  department: 'pd',
+		cookie_logged_in: 'metro-loggedin',
+		cookie_object: 'metro-account'
 };
 
 /*

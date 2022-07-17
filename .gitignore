@@ -42,3 +42,5 @@ testem.log
 Thumbs.db
 src/environments/hash.ts
 deploy.js
+set-to-pd.js
+set-to-sd.js

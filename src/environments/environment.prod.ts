@@ -1,4 +1,1 @@
-export const environment = {
-  production: true,
-  API_URL: 'https://imperiumxvii.co.uk:3000/api',
-};
+export const environment = {"production":true,"API_URL":"https://imperiumxvii.co.uk:3000/api","department":"sd","cookie_logged_in":"seb-loggedin","cookie_object":"seb-account"}

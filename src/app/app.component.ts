@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie';
+import { environment } from 'src/environments/environment';
 import { Account, AccountService } from './account.service';
 
 @Component({
@@ -21,7 +22,7 @@ export class AppComponent implements OnInit {
     });
 
     if(!this.accountService.loggedIn) {
-      const cookie = this.cookieService.get('metro-loggedin');
+      const cookie = this.cookieService.get(environment.cookie_logged_in);
       if(cookie === 'true') {
         const accountCookie = this.cookieService.getObject('metro-account');
         if(accountCookie) {
